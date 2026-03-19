@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light only">
+  <title>LivedIt — Conectando quem viveu com quem precisa</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { color-scheme: light only; background: #ffffff !important; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #1a1a1a !important; background: #ffffff !important; line-height: 1.6; -webkit-text-size-adjust: 100%; }
+
+    /* Forçar modo claro em todos os browsers incluindo Samsung Internet */
+    @media (prefers-color-scheme: dark) {
+      html, body { background: #ffffff !important; color: #1a1a1a !important; }
+      nav { background: #ffffff !important; border-color: #eee !important; }
+      .logo-name { color: #1a1a1a !important; }
+      .hero h1 { color: #1a1a1a !important; }
+      .hero p { color: #666 !important; }
+      .hero-badge { background: #FAECE7 !important; color: #C96B42 !important; }
+      .section-label { color: #E8845A !important; }
+      .section-h2 { color: #1a1a1a !important; }
+      .section-sub { color: #666 !important; }
+      .aviso-box { background: #FAECE7 !important; }
+      .aviso-box p { color: #C96B42 !important; }
+      .step-content h3 { color: #1a1a1a !important; }
+      .step-content p { color: #666 !important; }
+      .step-num { background: #E8845A !important; color: #ffffff !important; }
+      .mockup-section { background: #fafafa !important; }
+      .dores-section { background: #fafafa !important; }
+      .dor-card { background: #ffffff !important; border-color: #eee !important; }
+      .dor-card h3 { color: #1a1a1a !important; }
+      .dor-card p { color: #666 !important; }
+      .cta-mid { background: #fafafa !important; }
+      .cta-mid h2 { color: #1a1a1a !important; }
+      .cta-mid p { color: #666 !important; }
+      .cta-tab { background: #ffffff !important; border-color: #eee !important; }
+      .cta-tab.active { background: #FAECE7 !important; border-color: #E8845A !important; }
+      .cta-tab-title { color: #1a1a1a !important; }
+      .cta-tab-sub { color: #999 !important; }
+      .cta-tab.active .cta-tab-title { color: #C96B42 !important; }
+      .cta-tab.active .cta-tab-sub { color: #C96B42 !important; }
+      .cta-form input, .cta-form select, .cta-form textarea { background: #ffffff !important; color: #1a1a1a !important; border-color: #eee !important; }
+      .relato-section { background: #ffffff !important; }
+      .relato-card { background: #fafafa !important; }
+      .relato-text { color: #1a1a1a !important; }
+      .phone { background: #ffffff !important; }
+      .p-body { background: #ffffff !important; }
+      .p-card { background: #ffffff !important; border-color: #eee !important; }
+      .p-name { color: #1a1a1a !important; }
+      .p-nav { background: #ffffff !important; }
+      .chat-area { background: #ffffff !important; }
+      .chat-input { background: #ffffff !important; }
+      footer { background: #ffffff !important; border-color: #eee !important; }
+      footer .logo-name { color: #1a1a1a !important; }
+      footer p { color: #666 !important; }
+      .success-box { background: #E1F5EE !important; color: #085041 !important; }
+    }
+
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid #eee; background: #ffffff; position: sticky; top: 0; z-index: 100; }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-name { font-size: 18px; font-weight: 600; color: #1a1a1a; }
+    .nav-btn { background: #E8845A; color: #ffffff; border: none; border-radius: 20px; padding: 8px 20px; font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; }
+
+    /* HERO */
+    .hero { padding: 60px 24px 48px; text-align: center; max-width: 600px; margin: 0 auto; }
+    .hero-badge { display: inline-block; background: #FAECE7; color: #C96B42; font-size: 13px; font-weight: 500; padding: 6px 16px; border-radius: 20px; margin-bottom: 24px; }
+    .hero h1 { font-size: 32px; font-weight: 700; line-height: 1.2; margin-bottom: 16px; color: #1a1a1a; }
+    .hero h1 span { color: #E8845A; }
+    .hero p { font-size: 16px; color: #666; margin-bottom: 32px; line-height: 1.7; }
+
+    /* BLOCO DE CADASTRO — reutilizável */
+    .cta-block { max-width: 500px; margin: 0 auto; }
+    .cta-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+    .cta-tab { padding: 12px; border-radius: 12px; border: 1.5px solid #eee; background: #ffffff; cursor: pointer; text-align: center; transition: all 0.2s; }
+    .cta-tab.active { border-color: #E8845A; background: #FAECE7; }
+    .cta-tab-icon { font-size: 20px; margin-bottom: 4px; }
+    .cta-tab-title { font-size: 13px; font-weight: 600; color: #1a1a1a; }
+    .cta-tab-sub { font-size: 11px; color: #999; margin-top: 2px; }
+    .cta-tab.active .cta-tab-title { color: #C96B42; }
+    .cta-tab.active .cta-tab-sub { color: #C96B42; }
+
+    .cta-form { display: flex; flex-direction: column; gap: 10px; }
+    .cta-form input, .cta-form select, .cta-form textarea {
+      border: 1.5px solid #eee; border-radius: 12px; padding: 13px 16px; font-size: 14px;
+      outline: none; width: 100%; color: #1a1a1a; background: #ffffff; appearance: none;
+    }
+    .cta-form input:focus, .cta-form select:focus, .cta-form textarea:focus { border-color: #E8845A; }
+    .cta-form textarea { height: 70px; resize: none; }
+    .btn-coral { background: #E8845A; color: #ffffff; border: none; border-radius: 12px; padding: 14px; font-size: 15px; font-weight: 600; cursor: pointer; width: 100%; }
+    .form-note { font-size: 12px; color: #999; text-align: center; margin-top: 6px; }
+    .success-box { display: none; background: #E1F5EE; border: 1px solid #1D9E75; border-radius: 12px; padding: 16px; text-align: center; color: #085041; font-size: 14px; }
+    .success-box.mentor { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.4); color: white; }
+
+    /* MOCKUP */
+    .mockup-section { background: #fafafa; padding: 56px 24px; }
+    .mockup-inner { max-width: 680px; margin: 0 auto; }
+    .section-label { font-size: 12px; font-weight: 600; color: #E8845A; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; text-align: center; }
+    .section-h2 { font-size: 26px; font-weight: 700; text-align: center; margin-bottom: 8px; color: #1a1a1a; }
+    .section-sub { font-size: 15px; color: #666; text-align: center; margin-bottom: 32px; }
+
+    .carousel { position: relative; }
+    .carousel-track { display: flex; gap: 16px; justify-content: center; align-items: flex-start; }
+    @media (max-width: 639px) {
+      .carousel-track .carousel-slide { display: none; }
+      .carousel-track .carousel-slide.visible { display: flex; }
+    }
+    @media (min-width: 640px) {
+      .carousel-track { justify-content: center; }
+      .carousel-nav, .carousel-dots { display: none !important; }
+      .carousel-track .carousel-slide { display: flex !important; }
+    }
+    .carousel-slide { flex-direction: column; align-items: center; gap: 10px; min-width: 200px; width: 100%; justify-content: center; }
+    .carousel-nav { display: flex; justify-content: center; gap: 12px; margin-top: 16px; }
+    .carousel-btn { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid #E8845A; background: #ffffff; color: #E8845A; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .carousel-dots { display: flex; justify-content: center; gap: 6px; margin-top: 10px; }
+    .carousel-dot { width: 8px; height: 8px; border-radius: 50%; background: #eee; cursor: pointer; }
+    .carousel-dot.active { background: #E8845A; }
+
+    .phone { background: #ffffff; border-radius: 20px; overflow: hidden; border: 1px solid #eee; width: 200px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .phone-label { font-size: 11px; font-weight: 500; color: #999; text-align: center; text-transform: uppercase; letter-spacing: 0.04em; }
+    .p-bar { background: #E8845A; padding: 10px 12px; display: flex; align-items: center; gap: 8px; }
+    .p-bar-logo { width: 20px; height: 20px; background: rgba(255,255,255,0.25); border-radius: 5px; display: flex; align-items: center; justify-content: center; }
+    .p-bar-logo svg { width: 12px; height: 12px; }
+    .p-bar-title { font-size: 11px; font-weight: 600; color: #ffffff; flex: 1; }
+    .p-bar-sub { font-size: 9px; color: rgba(255,255,255,0.85); }
+    .p-body { padding: 10px; background: #ffffff; }
+    .p-search { background: #f5f5f5; border-radius: 8px; padding: 6px 10px; font-size: 10px; color: #aaa; margin-bottom: 8px; }
+    .p-cats { display: flex; gap: 5px; margin-bottom: 8px; flex-wrap: wrap; }
+    .p-cat { font-size: 9px; padding: 3px 8px; border-radius: 12px; border: 0.5px solid #eee; color: #555; background: #ffffff; }
+    .p-cat.active { background: #E8845A; color: #ffffff; border-color: #E8845A; }
+    .p-slabel { font-size: 9px; font-weight: 600; color: #999; text-transform: uppercase; margin-bottom: 6px; }
+    .p-card { background: #ffffff; border: 0.5px solid #eee; border-radius: 10px; padding: 7px 9px; margin-bottom: 5px; display: flex; gap: 7px; align-items: center; }
+    .p-av { width: 26px; height: 26px; border-radius: 50%; background: #FAECE7; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 700; color: #C96B42; flex-shrink: 0; }
+    .p-info { flex: 1; min-width: 0; }
+    .p-name { font-size: 9px; font-weight: 600; color: #1a1a1a; }
+    .p-sub { font-size: 8px; color: #999; }
+    .p-tags { display: flex; gap: 3px; margin-top: 2px; }
+    .p-tag { font-size: 7px; background: #FAECE7; color: #C96B42; border-radius: 10px; padding: 1px 4px; }
+    .p-price { font-size: 10px; font-weight: 700; color: #E8845A; flex-shrink: 0; }
+    .p-nav { display: flex; border-top: 0.5px solid #eee; background: #ffffff; }
+    .p-nav-item { flex: 1; padding: 6px 4px; text-align: center; }
+    .p-nav-dot { width: 13px; height: 13px; border-radius: 4px; background: #f0f0f0; margin: 0 auto 2px; }
+    .p-nav-dot.active { background: #FAECE7; }
+    .p-nav-lbl { font-size: 7px; color: #bbb; }
+    .p-nav-lbl.active { color: #E8845A; }
+    .p-profile-head { background: #E8845A; padding: 14px 12px; text-align: center; }
+    .p-profile-av { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.3); margin: 0 auto 5px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #ffffff; }
+    .p-profile-name { font-size: 11px; font-weight: 700; color: #ffffff; }
+    .p-profile-sub { font-size: 8px; color: rgba(255,255,255,0.85); margin-top: 2px; }
+    .p-stars { display: flex; gap: 2px; justify-content: center; margin-top: 3px; }
+    .p-star { width: 7px; height: 7px; background: #FFD700; border-radius: 1px; }
+    .p-info-row { display: flex; align-items: flex-start; gap: 6px; padding: 5px 0; border-bottom: 0.5px solid #f5f5f5; }
+    .p-dot { width: 5px; height: 5px; border-radius: 50%; background: #E8845A; flex-shrink: 0; margin-top: 3px; }
+    .p-itext { font-size: 9px; color: #444; line-height: 1.4; }
+    .p-btn { background: #E8845A; border-radius: 10px; padding: 7px; text-align: center; color: #ffffff; font-size: 9px; font-weight: 600; margin-top: 7px; }
+    .p-btn-outline { border: 1px solid #E8845A; border-radius: 10px; padding: 6px; text-align: center; color: #E8845A; font-size: 9px; margin-top: 4px; }
+    .chat-area { display: flex; flex-direction: column; padding: 8px; gap: 4px; background: #ffffff; }
+    .chat-them { background: #f0f0f0; color: #333; font-size: 9px; line-height: 1.4; padding: 5px 7px; border-radius: 9px 9px 9px 2px; max-width: 85%; }
+    .chat-me { background: #E8845A; color: #ffffff; font-size: 9px; line-height: 1.4; padding: 5px 7px; border-radius: 9px 9px 2px 9px; max-width: 85%; margin-left: auto; }
+    .chat-time { font-size: 7px; color: #ccc; margin-top: 1px; }
+    .chat-time.r { text-align: right; }
+    .chat-bar { background: #f5f5f5; padding: 6px 8px; display: flex; gap: 6px; align-items: center; }
+    .chat-input { background: #ffffff; border: 0.5px solid #eee; border-radius: 12px; padding: 5px 9px; font-size: 9px; color: #aaa; flex: 1; }
+    .chat-send { width: 22px; height: 22px; background: #E8845A; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+    /* SECÇÕES */
+    .section { padding: 56px 24px; max-width: 640px; margin: 0 auto; }
+    .aviso-box { background: #FAECE7; border-radius: 12px; padding: 16px 20px; margin-bottom: 28px; text-align: center; }
+    .aviso-box p { font-size: 14px; color: #C96B42; line-height: 1.6; }
+    .steps { display: flex; flex-direction: column; gap: 22px; }
+    .step { display: flex; gap: 16px; align-items: flex-start; }
+    .step-num { width: 40px; height: 40px; background: #E8845A; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ffffff; font-weight: 700; font-size: 16px; flex-shrink: 0; }
+    .step-content h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; color: #1a1a1a; }
+    .step-content p { font-size: 14px; color: #666; line-height: 1.6; }
+
+    .dores-section { background: #fafafa; padding: 56px 24px; }
+    .dores-inner { max-width: 640px; margin: 0 auto; }
+    .dores-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 28px; }
+    .dor-card { background: #ffffff; border: 1px solid #eee; border-radius: 12px; padding: 16px; }
+    .dor-icon { width: 32px; height: 32px; background: #FAECE7; border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+    .dor-card h3 { font-size: 13px; font-weight: 600; margin-bottom: 4px; color: #1a1a1a; }
+    .dor-card p { font-size: 12px; color: #666; line-height: 1.5; }
+
+    /* CTA MEIO — fundo cinza claro */
+    .cta-mid { background: #fafafa; padding: 56px 24px; }
+    .cta-mid-inner { max-width: 500px; margin: 0 auto; text-align: center; }
+    .cta-mid h2 { font-size: 24px; font-weight: 700; color: #1a1a1a; margin-bottom: 8px; }
+    .cta-mid p { font-size: 15px; color: #666; margin-bottom: 28px; }
+
+    .relato-section { padding: 56px 24px; max-width: 640px; margin: 0 auto; }
+    .relato-card { background: #fafafa; border-left: 3px solid #E8845A; border-radius: 0 12px 12px 0; padding: 16px 20px; margin-bottom: 12px; }
+    .relato-text { font-size: 14px; color: #1a1a1a; line-height: 1.7; font-style: italic; }
+    .relato-tag { display: inline-block; font-size: 11px; font-weight: 500; background: #FAECE7; color: #C96B42; padding: 3px 10px; border-radius: 20px; margin-top: 8px; }
+
+    /* CTA FINAL — fundo coral */
+    .cta-final { background: #E8845A; padding: 56px 24px; }
+    .cta-final-inner { max-width: 500px; margin: 0 auto; text-align: center; }
+    .cta-final h2 { font-size: 26px; font-weight: 700; color: #ffffff; margin-bottom: 8px; }
+    .cta-final p { font-size: 15px; color: rgba(255,255,255,0.9); margin-bottom: 28px; }
+    .cta-final .cta-tab { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3); }
+    .cta-final .cta-tab.active { background: #ffffff; border-color: #ffffff; }
+    .cta-final .cta-tab-title { color: #ffffff; }
+    .cta-final .cta-tab-sub { color: rgba(255,255,255,0.8); }
+    .cta-final .cta-tab.active .cta-tab-title { color: #E8845A; }
+    .cta-final .cta-tab.active .cta-tab-sub { color: #C96B42; }
+    .cta-final .cta-form input,
+    .cta-final .cta-form select,
+    .cta-final .cta-form textarea { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.4); color: #ffffff; }
+    .cta-final .cta-form input::placeholder,
+    .cta-final .cta-form textarea::placeholder { color: rgba(255,255,255,0.6); }
+    .cta-final .btn-coral { background: #ffffff; color: #E8845A; }
+    .cta-final .form-note { color: rgba(255,255,255,0.7); }
+
+    footer { padding: 32px 24px; text-align: center; border-top: 1px solid #eee; background: #ffffff; }
+    footer .logo-name { font-size: 16px; margin-bottom: 8px; display: block; color: #1a1a1a; }
+    footer p { font-size: 13px; color: #666; }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 26px; }
+      .dores-grid { grid-template-columns: 1fr; }
+      .section-h2 { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="#">
+    <img src="https://raw.githubusercontent.com/IanFrances/livedit/main/logo.png" style="width:36px;height:36px;border-radius:10px;" alt="LivedIt">
+    <span class="logo-name">LivedIt</span>
+  </a>
+  <a class="nav-btn" href="#cta1">Quero entrar</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Em breve em Portugal e no mundo</div>
+  <h1>Aprenda com quem já <span>viveu</span> o que você está passando</h1>
+  <p>Cada caso é único — mas conhecer o terreno antes de entrar nele faz toda a diferença. Conectamos você com brasileiros que já passaram pelo visto, NISS, emprego e moradia. Não para copiar o caminho deles, mas para chegar preparado.</p>
+</section>
+
+<!-- CTA 1 — INÍCIO -->
+<div id="cta1" style="background:#ffffff;padding:0 24px 56px;">
+  <div class="cta-block" id="block1">
+    <div class="cta-tabs">
+      <div class="cta-tab active" onclick="trocarTab('block1','usuario')" id="block1-tab-usuario">
+        <div class="cta-tab-icon">🙋</div>
+        <div class="cta-tab-title">Quero aprender</div>
+        <div class="cta-tab-sub">Preciso de orientação</div>
+      </div>
+      <div class="cta-tab" onclick="trocarTab('block1','mentor')" id="block1-tab-mentor">
+        <div class="cta-tab-icon">🌟</div>
+        <div class="cta-tab-title">Quero ser mentor</div>
+        <div class="cta-tab-sub">Já passei por isso</div>
+      </div>
+    </div>
+    <div id="block1-form-usuario" class="cta-form">
+      <input type="text" placeholder="Seu nome" id="b1-nome">
+      <input type="email" placeholder="Seu melhor email" id="b1-email">
+      <select id="b1-situacao">
+        <option value="" disabled selected>Qual é sua situação?</option>
+        <option>Quero vir para Portugal</option>
+        <option>Já estou em Portugal</option>
+        <option>Preciso de emprego</option>
+        <option>Tenho dúvidas sobre visto/AIMA</option>
+        <option>Moradia</option>
+        <option>Reconhecimento de diploma</option>
+        <option>Saúde e médico de família</option>
+        <option>Direitos e reclamações</option>
+        <option>Outra situação</option>
+      </select>
+      <button class="btn-coral" onclick="enviar('b1','usuario')">Quero ser avisado quando lançar</button>
+      <p class="form-note">Gratuito para entrar na lista. Sem spam.</p>
+    </div>
+    <div id="block1-form-mentor" class="cta-form" style="display:none;">
+      <input type="text" placeholder="Seu nome" id="b1m-nome">
+      <input type="email" placeholder="Seu email" id="b1m-email">
+      <select id="b1m-tempo">
+        <option value="" disabled selected>Há quanto tempo está em Portugal?</option>
+        <option>Menos de 1 ano</option>
+        <option>1 a 2 anos</option>
+        <option>2 a 3 anos</option>
+        <option>Mais de 3 anos</option>
+      </select>
+      <textarea placeholder="O que você já viveu e pode ajudar outros a entender melhor?" id="b1m-exp"></textarea>
+      <button class="btn-coral" onclick="enviar('b1m','mentor')">Quero ser mentor</button>
+      <p class="form-note">Entraremos em contacto em breve.</p>
+    </div>
+    <div class="success-box" id="block1-success">Recebemos o seu cadastro! Entraremos em contacto em breve.</div>
+  </div>
+</div>
+
+<!-- MOCKUP -->
+<div class="mockup-section">
+  <div class="mockup-inner">
+    <div class="section-label">O app</div>
+    <div class="section-h2">Veja como vai funcionar</div>
+    <div class="section-sub">Encontra o mentor, vê o perfil, conversa ao vivo.</div>
+    <div class="carousel">
+      <div class="carousel-track" id="carouselTrack">
+        <div class="carousel-slide visible" id="slide0">
+          <div class="phone">
+            <div class="p-bar">
+              <div class="p-bar-logo"><img src="https://raw.githubusercontent.com/IanFrances/livedit/main/logo.png" style="width:14px;height:14px;border-radius:3px;" alt="Li"></div>
+              <div><div class="p-bar-title">LivedIt</div><div class="p-bar-sub">Olá, Bruno</div></div>
+            </div>
+            <div class="p-body">
+              <div class="p-search">Buscar por situação...</div>
+              <div class="p-cats"><span class="p-cat active">Imigração</span><span class="p-cat">Emprego</span><span class="p-cat">Visto</span></div>
+              <div class="p-slabel">Disponíveis agora</div>
+              <div class="p-card"><div class="p-av">CS</div><div class="p-info"><div class="p-name">Carlos Silva</div><div class="p-sub">Lisboa · 3 anos</div><div class="p-tags"><span class="p-tag">NISS</span><span class="p-tag">Visto</span></div></div><div class="p-price">15€</div></div>
+              <div class="p-card"><div class="p-av">AM</div><div class="p-info"><div class="p-name">Ana Melo</div><div class="p-sub">Porto · 2 anos</div><div class="p-tags"><span class="p-tag">Emprego</span><span class="p-tag">CV</span></div></div><div class="p-price">12€</div></div>
+              <div class="p-card"><div class="p-av">RP</div><div class="p-info"><div class="p-name">Rafael P.</div><div class="p-sub">Lisboa · 4 anos</div><div class="p-tags"><span class="p-tag">AIMA</span></div></div><div class="p-price">20€</div></div>
+            </div>
+            <div class="p-nav">
+              <div class="p-nav-item"><div class="p-nav-dot active"></div><div class="p-nav-lbl active">Início</div></div>
+              <div class="p-nav-item"><div class="p-nav-dot"></div><div class="p-nav-lbl">Buscar</div></div>
+              <div class="p-nav-item"><div class="p-nav-dot"></div><div class="p-nav-lbl">Sessões</div></div>
+              <div class="p-nav-item"><div class="p-nav-dot"></div><div class="p-nav-lbl">Perfil</div></div>
+            </div>
+          </div>
+          <div class="phone-label">1 — Tela inicial</div>
+        </div>
+        <div class="carousel-slide" id="slide1">
+          <div class="phone">
+            <div class="p-profile-head">
+              <div class="p-profile-av">CS</div>
+              <div class="p-profile-name">Carlos Silva</div>
+              <div class="p-profile-sub">Lisboa · Engenheiro · 3 anos em PT</div>
+              <div class="p-stars"><div class="p-star"></div><div class="p-star"></div><div class="p-star"></div><div class="p-star"></div><div class="p-star"></div></div>
+            </div>
+            <div class="p-body">
+              <div class="p-slabel">O que já viveu</div>
+              <div class="p-info-row"><div class="p-dot"></div><div class="p-itext">Tirou NISS sem contrato</div></div>
+              <div class="p-info-row"><div class="p-dot"></div><div class="p-itext">Reconheceu diploma na DGES</div></div>
+              <div class="p-info-row"><div class="p-dot"></div><div class="p-itext">Emprego em 6 semanas</div></div>
+              <div class="p-info-row"><div class="p-dot"></div><div class="p-itext">Residência na AIMA</div></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;">
+                <span style="font-size:18px;font-weight:700;color:#1a1a1a;">15€</span>
+                <span style="font-size:8px;color:#999;">Responde em ~2h</span>
+              </div>
+              <div class="p-btn">Conectar com Carlos</div>
+              <div class="p-btn-outline">Ver avaliações (47)</div>
+            </div>
+          </div>
+          <div class="phone-label">2 — Perfil do mentor</div>
+        </div>
+        <div class="carousel-slide" id="slide2">
+          <div class="phone">
+            <div class="p-bar">
+              <div style="width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.25);color:white;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;flex-shrink:0;">CS</div>
+              <div style="margin-left:8px;"><div class="p-bar-title">Carlos Silva</div><div class="p-bar-sub">Online agora</div></div>
+            </div>
+            <div class="chat-area">
+              <div class="chat-them">Olá! Pode contar sua situação com o NISS?</div>
+              <div class="chat-time">14:02</div>
+              <div class="chat-me">Cheguei há 2 semanas, tenho visto de procura mas sem contrato.</div>
+              <div class="chat-time r">14:03</div>
+              <div class="chat-them">Passei pelo mesmo! Existe um caminho que pouca gente conhece — pedido direto na Seg. Social...</div>
+              <div class="chat-time">14:05</div>
+              <div class="chat-me">Sério? Como funciona?</div>
+              <div class="chat-time r">14:05</div>
+            </div>
+            <div class="chat-bar">
+              <div class="chat-input">Escreva uma mensagem...</div>
+              <div class="chat-send"><svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13" stroke="white" stroke-width="2.5" stroke-linecap="round"/><path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="white" stroke-width="2.5" stroke-linejoin="round" fill="none"/></svg></div>
+            </div>
+          </div>
+          <div class="phone-label">3 — Sessão ao vivo</div>
+        </div>
+      </div>
+      <div class="carousel-nav">
+        <button class="carousel-btn" onclick="moverSlide(-1)">&#8592;</button>
+        <button class="carousel-btn" onclick="moverSlide(1)">&#8594;</button>
+      </div>
+      <div class="carousel-dots">
+        <div class="carousel-dot active" onclick="irSlide(0)"></div>
+        <div class="carousel-dot" onclick="irSlide(1)"></div>
+        <div class="carousel-dot" onclick="irSlide(2)"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMO FUNCIONA -->
+<section class="section">
+  <div class="section-label">Como funciona</div>
+  <div class="section-h2" style="margin-bottom:28px;">Simples como uma conversa</div>
+  <div class="aviso-box">
+    <p>Cada experiência é única — o LivedIt não é para copiar o caminho de ninguém. É para chegar preparado, entender o que esperar e evitar erros que quem já passou aprendeu da forma difícil.</p>
+  </div>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-content"><h3>Conta a tua situação</h3><p>Descreves o que estás a passar — visto, emprego, moradia, burocracia. O app encontra mentores que viveram algo parecido.</p></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-content"><h3>Escolhe o teu mentor</h3><p>Vê quem passou por situações similares, lê avaliações de quem já foi atendido e escolhe o mentor certo.</p></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-content"><h3>Conversa ao vivo</h3><p>Uma sessão em vídeo ou chat. Não é consultoria — é uma conversa honesta com quem já esteve no teu lugar.</p></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-content"><h3>Avalia e ajuda o próximo</h3><p>Depois da sessão, avalias o mentor. E quando tiveres passado pelo processo, podes tornar-te mentor e ajudar quem vem a seguir.</p></div></div>
+  </div>
+</section>
+
+<!-- DORES -->
+<div class="dores-section">
+  <div class="dores-inner">
+    <div class="section-label">O que resolvemos</div>
+    <div class="section-h2" style="margin-bottom:8px;">As dores que ninguém resolve</div>
+    <p style="text-align:center;color:#666;font-size:15px;">Informação que está na cabeça de quem já passou — não no Google.</p>
+    <div class="dores-grid">
+      <div class="dor-card"><div class="dor-icon">📄</div><h3>Visto e documentação</h3><p>O processo completo que muitos cobram caro para fazer por você.</p></div>
+      <div class="dor-card"><div class="dor-icon">🏠</div><h3>Moradia</h3><p>Encontrar apartamento sem ninguém de confiança no país.</p></div>
+      <div class="dor-card"><div class="dor-icon">💼</div><h3>Emprego</h3><p>Como funciona o mercado de trabalho real — não o que está no LinkedIn.</p></div>
+      <div class="dor-card"><div class="dor-icon">📋</div><h3>NISS e burocracia</h3><p>O ciclo vicioso que nenhum órgão resolve — mas quem passou sabe o caminho.</p></div>
+      <div class="dor-card"><div class="dor-icon">🎓</div><h3>Diploma</h3><p>Reconhecimento de diploma — apostila, documentos, o que realmente pedem.</p></div>
+      <div class="dor-card"><div class="dor-icon">🚗</div><h3>Habilitação</h3><p>Como converter sua carta de condução brasileira em Portugal.</p></div>
+      <div class="dor-card"><div class="dor-icon">🏥</div><h3>Saúde</h3><p>Médico de família, o que pode pedir, quando ir ao particular.</p></div>
+      <div class="dor-card"><div class="dor-icon">⚖️</div><h3>Direitos e reclamações</h3><p>Livro de reclamações, portal da queixa — armas que poucos conhecem.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA 2 — MEIO -->
+<div class="cta-mid" id="cta2">
+  <div class="cta-mid-inner">
+    <div class="section-label">Junte-se a nós</div>
+    <h2>Quer fazer parte desde o início?</h2>
+    <p>Seja o primeiro a saber quando lançarmos — ou torna-te mentor e começa a ganhar desde o dia 1.</p>
+    <div class="cta-block" id="block2">
+      <div class="cta-tabs">
+        <div class="cta-tab active" onclick="trocarTab('block2','usuario')" id="block2-tab-usuario">
+          <div class="cta-tab-icon">🙋</div>
+          <div class="cta-tab-title">Quero aprender</div>
+          <div class="cta-tab-sub">Preciso de orientação</div>
+        </div>
+        <div class="cta-tab" onclick="trocarTab('block2','mentor')" id="block2-tab-mentor">
+          <div class="cta-tab-icon">🌟</div>
+          <div class="cta-tab-title">Quero ser mentor</div>
+          <div class="cta-tab-sub">Já passei por isso</div>
+        </div>
+      </div>
+      <div id="block2-form-usuario" class="cta-form">
+        <input type="text" placeholder="Seu nome" id="b2-nome">
+        <input type="email" placeholder="Seu melhor email" id="b2-email">
+        <select id="b2-situacao">
+          <option value="" disabled selected>Qual é sua situação?</option>
+          <option>Quero vir para Portugal</option>
+          <option>Já estou em Portugal</option>
+          <option>Preciso de emprego</option>
+          <option>Tenho dúvidas sobre visto/AIMA</option>
+          <option>Moradia</option>
+          <option>Reconhecimento de diploma</option>
+          <option>Saúde e médico de família</option>
+          <option>Direitos e reclamações</option>
+          <option>Outra situação</option>
+        </select>
+        <button class="btn-coral" onclick="enviar('b2','usuario')">Quero ser avisado quando lançar</button>
+        <p class="form-note">Gratuito para entrar na lista. Sem spam.</p>
+      </div>
+      <div id="block2-form-mentor" class="cta-form" style="display:none;">
+        <input type="text" placeholder="Seu nome" id="b2m-nome">
+        <input type="email" placeholder="Seu email" id="b2m-email">
+        <select id="b2m-tempo" style="color:#1a1a1a;background:#ffffff;">
+          <option value="" disabled selected>Há quanto tempo está em Portugal?</option>
+          <option>Menos de 1 ano</option>
+          <option>1 a 2 anos</option>
+          <option>2 a 3 anos</option>
+          <option>Mais de 3 anos</option>
+        </select>
+        <textarea placeholder="O que você já viveu e pode ajudar outros a entender melhor?" id="b2m-exp"></textarea>
+        <button class="btn-coral" onclick="enviar('b2m','mentor')">Quero ser mentor</button>
+        <p class="form-note">Entraremos em contacto em breve.</p>
+      </div>
+      <div class="success-box" id="block2-success">Recebemos o seu cadastro! Entraremos em contacto em breve.</div>
+    </div>
+  </div>
+</div>
+
+<!-- RELATOS -->
+<section class="relato-section">
+  <div class="section-label">Relatos reais</div>
+  <div class="section-h2" style="margin-bottom:28px;">Por que cada experiência importa</div>
+  <div class="relato-card">
+    <p class="relato-text">"Fui trocar a carta de condução em Braga e apanhei como se não houvesse amanhã. Um amigo foi ao mesmo sítio e saiu em menos de um mês sem burocracia. Mesmo serviço, funcionários diferentes. É sorte."</p>
+    <span class="relato-tag">Habilitação · Braga</span>
+  </div>
+  <div class="relato-card">
+    <p class="relato-text">"O meu primeiro médico de família deu-me o atestado sem questionar. A médica nova recusou. Fui ao particular, mediu a pressão, mandou-me escrever o que precisava e assinou. 15€ em menos de 10 minutos."</p>
+    <span class="relato-tag">Saúde · Lisboa</span>
+  </div>
+  <div class="relato-card">
+    <p class="relato-text">"Dica para quem chega: nunca briga. Abre uma reclamação. Temos livro vermelho, portal da queixa e para órgãos públicos temos livro amarelo."</p>
+    <span class="relato-tag">Direitos · Portugal</span>
+  </div>
+  <p style="font-size:13px;color:#999;text-align:center;margin-top:16px;">Relatos partilhados por brasileiros em grupos de imigrantes em Portugal.</p>
+</section>
+
+<!-- CTA 3 — FINAL -->
+<div class="cta-final" id="cta3">
+  <div class="cta-final-inner">
+    <div class="section-label" style="color:rgba(255,255,255,0.8);">Última chamada</div>
+    <h2>Ainda não se cadastrou?</h2>
+    <p>Entra na lista agora — seja para aprender com quem já passou, ou para ajudar e ganhar sendo mentor.</p>
+    <div class="cta-block" id="block3">
+      <div class="cta-tabs">
+        <div class="cta-tab active" onclick="trocarTab('block3','usuario')" id="block3-tab-usuario">
+          <div class="cta-tab-icon">🙋</div>
+          <div class="cta-tab-title">Quero aprender</div>
+          <div class="cta-tab-sub">Preciso de orientação</div>
+        </div>
+        <div class="cta-tab" onclick="trocarTab('block3','mentor')" id="block3-tab-mentor">
+          <div class="cta-tab-icon">🌟</div>
+          <div class="cta-tab-title">Quero ser mentor</div>
+          <div class="cta-tab-sub">Já passei por isso</div>
+        </div>
+      </div>
+      <div id="block3-form-usuario" class="cta-form">
+        <input type="text" placeholder="Seu nome" id="b3-nome">
+        <input type="email" placeholder="Seu melhor email" id="b3-email">
+        <select id="b3-situacao">
+          <option value="" disabled selected>Qual é sua situação?</option>
+          <option>Quero vir para Portugal</option>
+          <option>Já estou em Portugal</option>
+          <option>Preciso de emprego</option>
+          <option>Tenho dúvidas sobre visto/AIMA</option>
+          <option>Moradia</option>
+          <option>Reconhecimento de diploma</option>
+          <option>Saúde e médico de família</option>
+          <option>Direitos e reclamações</option>
+          <option>Outra situação</option>
+        </select>
+        <button class="btn-coral" onclick="enviar('b3','usuario')">Quero ser avisado quando lançar</button>
+        <p class="form-note">Gratuito para entrar na lista. Sem spam.</p>
+      </div>
+      <div id="block3-form-mentor" class="cta-form" style="display:none;">
+        <input type="text" placeholder="Seu nome" id="b3m-nome">
+        <input type="email" placeholder="Seu email" id="b3m-email">
+        <select id="b3m-tempo" style="color:#1a1a1a;background:#ffffff;">
+          <option value="" disabled selected>Há quanto tempo está em Portugal?</option>
+          <option>Menos de 1 ano</option>
+          <option>1 a 2 anos</option>
+          <option>2 a 3 anos</option>
+          <option>Mais de 3 anos</option>
+        </select>
+        <textarea placeholder="O que você já viveu e pode ajudar outros a entender melhor?" id="b3m-exp"></textarea>
+        <button class="btn-coral" onclick="enviar('b3m','mentor')">Quero ser mentor</button>
+        <p class="form-note" style="color:rgba(255,255,255,0.7);">Entraremos em contacto em breve.</p>
+      </div>
+      <div class="success-box mentor" id="block3-success">Recebemos o seu cadastro! Entraremos em contacto em breve.</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="logo-name">LivedIt</span>
+  <p>Conectando quem viveu com quem precisa · Em breve</p>
+  <p style="margin-top:8px;font-size:12px;">© 2026 LivedIt. Todos os direitos reservados.</p>
+</footer>
+
+<script>
+  var slideAtual = 0;
+  function atualizarSlides() {
+    if (window.innerWidth >= 640) return;
+    for (var i = 0; i < 3; i++) {
+      var s = document.getElementById('slide' + i);
+      if (s) s.className = 'carousel-slide' + (i === slideAtual ? ' visible' : '');
+    }
+    document.querySelectorAll('.carousel-dot').forEach(function(d, i) {
+      d.classList.toggle('active', i === slideAtual);
+    });
+  }
+  function moverSlide(dir) { slideAtual = (slideAtual + dir + 3) % 3; atualizarSlides(); }
+  function irSlide(i) { slideAtual = i; atualizarSlides(); }
+  window.addEventListener('load', atualizarSlides);
+  window.addEventListener('resize', atualizarSlides);
+
+  function trocarTab(blockId, tipo) {
+    var tabs = ['usuario', 'mentor'];
+    tabs.forEach(function(t) {
+      var tab = document.getElementById(blockId + '-tab-' + t);
+      var form = document.getElementById(blockId + '-form-' + t);
+      if (tab) tab.classList.toggle('active', t === tipo);
+      if (form) form.style.display = t === tipo ? 'flex' : 'none';
+    });
+  }
+
+  async function enviar(prefix, tipo) {
+    var nomeEl = document.getElementById(prefix + '-nome');
+    var emailEl = document.getElementById(prefix + '-email');
+    if (!nomeEl || !emailEl) return;
+    var email = emailEl.value.trim();
+    var nome = nomeEl.value.trim();
+    if (!nome || !email) { alert('Por favor preenche o nome e o email.'); return; }
+
+    var data = { nome: nome, email: email, tipo: tipo };
+    var situacaoEl = document.getElementById(prefix + '-situacao');
+    if (situacaoEl) data.situacao = situacaoEl.value;
+    var tempoEl = document.getElementById(prefix + '-tempo');
+    if (tempoEl) data.tempo = tempoEl.value;
+    var expEl = document.getElementById(prefix + '-exp');
+    if (expEl) data.experiencia = expEl.value;
+
+    var num = prefix.replace(/[^0-9]/g, '');
+    var successId = 'block' + num + '-success';
+
+    try {
+      await fetch('https://formspree.io/f/xeervawb', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      document.querySelectorAll('[id^="block' + num + '-form"]').forEach(function(f) { f.style.display = 'none'; });
+      document.querySelectorAll('[id^="block' + num + '-tab"]').forEach(function(t) { t.style.display = 'none'; });
+      var suc = document.getElementById(successId);
+      if (suc) suc.style.display = 'block';
+    } catch(e) { alert('Erro ao enviar. Tenta novamente.'); }
+  }
+</script>
+</body>
+</html>
